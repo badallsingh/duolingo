@@ -72,7 +72,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-<div> </div>
       {/* 📅 STREAK CALENDAR */}
       <div className="mx-6 mt-6 bg-orange-500 rounded-2xl p-6 shadow-lg">
         <h2 className="text-lg font-bold">🔥 {data.streak} Day Streak</h2>
