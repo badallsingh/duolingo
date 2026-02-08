@@ -41,7 +41,7 @@ export default function Dashboard() {
 
   if (!data) return <div className="text-white p-6">Loading...</div>;
 
-  // const progress = data.xp % 100;
+  const progress = data.xp % 100;
 
   return (
     <div className="min-h-screen bg-[#020617] text-white pb-20">
@@ -58,7 +58,7 @@ export default function Dashboard() {
       </div>
 
       {/* XP CARD */}
-      {/* <div className="mx-6 mt-6 bg-[#0f172a] rounded-2xl p-6 shadow-lg">
+      <div className="mx-6 mt-6 bg-[#0f172a] rounded-2xl p-6 shadow-lg">
         <div className="flex justify-between mb-3">
           <span>Level {data.level}</span>
           <span>{data.xp} XP</span>
@@ -70,8 +70,9 @@ export default function Dashboard() {
             style={{ width: `${progress}%` }}
           />
         </div>
-      </div> */}
+      </div>
 
+<div> </div>
       {/* 📅 STREAK CALENDAR */}
       <div className="mx-6 mt-6 bg-orange-500 rounded-2xl p-6 shadow-lg">
         <h2 className="text-lg font-bold">🔥 {data.streak} Day Streak</h2>
