@@ -1,0 +1,10 @@
+{
+  "createAccount": "Create Account",
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+  "signUp": "Sign Up",
+  "alreadyAccount": "Already have an account?",
+  "login": "Login",
+  "learningLanguage": "Learning Language"
+}

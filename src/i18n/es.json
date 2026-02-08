@@ -1,0 +1,10 @@
+{
+  "createAccount": "Crear Cuenta",
+  "name": "Nombre",
+  "email": "Correo",
+  "password": "Contraseña",
+  "signUp": "Registrarse",
+  "alreadyAccount": "¿Ya tienes una cuenta?",
+  "login": "Iniciar sesión",
+  "learningLanguage": "Idioma de aprendizaje"
+}

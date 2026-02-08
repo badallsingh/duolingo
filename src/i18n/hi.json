@@ -1,0 +1,10 @@
+{
+  "createAccount": "खाता बनाएं",
+  "name": "नाम",
+  "email": "ईमेल",
+  "password": "पासवर्ड",
+  "signUp": "साइन अप",
+  "alreadyAccount": "पहले से खाता है?",
+  "login": "लॉगिन",
+  "learningLanguage": "सीखने की भाषा"
+}
