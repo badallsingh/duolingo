@@ -11,12 +11,12 @@ export default function Dashboard() {
   useEffect(() => {
     if (!email) return;
 
-    // 🔹 Dashboard data (xp, level, streak)
+    // Dashboard data (xp, level, streak)
     fetch(`http://127.0.0.1:8000/user/dashboard/${email}`)
       .then((res) => res.json())
       .then(setData);
 
-    // 🔹 League badge
+    //  League badge
     fetch(`http://127.0.0.1:8000/league/leaderboard`)
       .then((res) => res.json())
       .then((list) => {
@@ -24,7 +24,7 @@ export default function Dashboard() {
         if (me) setLeague(me.league);
       });
 
-    // 🔹 Next unlocked lesson
+    //  Next unlocked lesson
     fetch(`http://127.0.0.1:8000/user/lessons/${email}`)
       .then((res) => res.json())
       .then((levels) => {

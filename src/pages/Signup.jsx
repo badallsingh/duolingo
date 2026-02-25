@@ -11,17 +11,28 @@ export default function Signup() {
     name: "",
     email: "",
     password: "",
-    ui_language: "",
-    learning_language: "",
+    ui_language: "english",
+    learning_language: "english",
   });
 
   const handleSignup = async (e) => {
-    e.preventDefault(); // 🔴 REQUIRED
-
+    e.preventDefault(); 
+console.log("Signup payload 👉", {
+  name: form.name,
+  email: form.email,
+  password: form.password,
+  ui_language: form.ui_language,
+  learning_language: form.learning_language,
+});
     try {
       await axios.post(
-        "http://127.0.0.1:8000/auth/signup",
-        form
+        "http://127.0.0.1:8000/auth/signup",{
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          ui_language: form.ui_language,
+          learning_language: form.learning_language
+        },
       );
 
       alert("Signup successful");

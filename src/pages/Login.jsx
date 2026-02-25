@@ -16,20 +16,21 @@ export default function Login() {
   try {
     const res = await axios.post(
       "http://127.0.0.1:8000/auth/login",
-      { email, password }
+      { email, password },
+      console.log("login response:", res.data)
     );
 
-    // ✅ SAVE EVERYTHING PROPERLY
+    //  SAVE EVERYTHING PROPERLY
     localStorage.setItem("token", res.data.access_token);
-    localStorage.setItem("email", email); // ✅ FIXED
+    localStorage.setItem("email", email); 
     localStorage.setItem("data", JSON.stringify(res.data.user));
 
-    // ✅ language sync
+    //  language sync
     changeLanguage(res.data.user.ui_language);
 
     navigate("/dashboard");
   } catch (err) {
-    console.error(err);
+    console.error("Login error:", err);
     alert("Login failed");
   }
 };

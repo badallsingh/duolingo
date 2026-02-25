@@ -11,7 +11,7 @@ export const LanguageContext = createContext();
 export function LanguageProvider({ children }) {
   // Load saved UI language or default to English
   const [language, setLanguage] = useState(
-    localStorage.getItem("lang") || "en"
+    localStorage.getItem("lang") || "english"
   );
 
   // Language dictionary
