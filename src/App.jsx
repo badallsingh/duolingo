@@ -7,7 +7,7 @@ import Profile from "./pages/Profile";
 import Lessons from "./pages/Lessons";
 import LessonPlay from "./pages/LessonPlay";
 import League from "./pages/League";
-import Lesson from "./pages/lesson";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import LanguageProvider from "./context/LanguageProvider";
 
@@ -49,22 +49,13 @@ export default function App() {
             }
           />
 
-          <Route
-            path="/lesson/:id"
-            element={
-              <ProtectedRoute>
+           <Route
+              path="/lessonplay/:level/:lessonId"
+             element={
+             <ProtectedRoute>
                 <LessonPlay />
               </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/lesson/:level/:lessonId"
-            element={
-              <ProtectedRoute>
-
-                <Lesson />
-              </ProtectedRoute>
-            }
+             } 
           />
 
           <Route

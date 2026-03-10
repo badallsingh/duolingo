@@ -1,52 +1,32 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate , useParams} from "react-router-dom";
 import LevelCard from "../components/LevelCard";
-import BottomNav from "../components/BottomNav";
 
-export default function Lessons() {
-  const [levels, setLevels] = useState([]);
-  const navigate = useNavigate();
-  const email = localStorage.getItem("email");
 
-  useEffect(() => {
-    if (!email) return; // ✅ guard
+export default function Lesson() {
+const { level, lessonId } = useParams();
+const navigate = useNavigate();
 
-    fetch(`http://127.0.0.1:8000/user/lessons/${email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setLevels(data);
-        } else {
-          setLevels([]); // ✅ avoid crash
-        }
-      })
-      .catch((err) => {
-        console.error("Lessons fetch error", err);
-        setLevels([]);
-      });
-  }, [email]);
+const startLesson = () => {
+navigate(`/lessonplay/${level}/${lessonId}`);
+};
 
-  const startLesson = (level, lessonId) => {
-    navigate(`/lesson/${level}/${lessonId}`);
-  };
+return ( <div className="min-h-screen bg-[#020617] text-white p-6"> <h1 className="text-xl font-bold">
+Lesson {lessonId} (Level {level}) </h1>
 
-  return (
-    <div className="min-h-screen bg-[#020617] text-white p-4 pb-20">
-      <h1 className="text-xl font-bold mb-4">Your Learning Path</h1>
+  <p className="text-gray-400 mt-2">
+    Ready to start this lesson?
+  </p>
 
-      {levels.length === 0 ? (
-        <p className="text-gray-400">No lessons available</p>
-      ) : (
-        levels.map((lvl) => (
-          <LevelCard
-            key={lvl.level}
-            level={lvl}
-            onLessonClick={startLesson}
-          />
-        ))
-      )}
-
-      <BottomNav />
-    </div>
-  );
+  <button
+    onClick={startLesson}
+    className="mt-6 bg-green-500 px-6 py-2 rounded font-semibold"
+  >
+    Start Lesson
+  </button>
+</div>
+);
 }
+
+
+

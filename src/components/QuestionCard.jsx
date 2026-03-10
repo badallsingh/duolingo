@@ -1,32 +1,37 @@
-export default function QuestionCard({
-  question,
-  onAnswer,
-  selected,
-  showFeedback,
-}) {
-  return (
-    <div className="bg-[#0f172a] p-4 rounded-xl">
-      <h2 className="text-lg mb-4">{question.text}</h2>
+export default function QuestionCard({ question, selected, showFeedback, onAnswer }) {
 
-      {question.options.map((opt) => {
-        let style = "bg-[#020617]";
+return ( <div className="mt-6">
+`
+  <h2 className="text-lg font-semibold mb-4">
+    {question.text}
+  </h2>
 
-        if (showFeedback) {
-          if (opt === question.answer) style = "bg-green-500";
-          else if (opt === selected) style = "bg-red-500";
-        }
+  {question.options.map((opt, i) => {
 
-        return (
-          <button
-            key={opt}
-            disabled={showFeedback}
-            onClick={() => onAnswer(opt)}
-            className={`w-full p-3 rounded mb-2 ${style}`}
-          >
-            {opt}
-          </button>
-        );
-      })}
-    </div>
-  );
+    let style = "block w-full bg-gray-800 p-3 mb-2 rounded";
+
+    if (showFeedback) {
+      if (opt === question.answer) {
+        style = "block w-full bg-green-600 p-3 mb-2 rounded";
+      } else if (opt === selected) {
+        style = "block w-full bg-red-600 p-3 mb-2 rounded";
+      }
+    }
+
+    return (
+      <button
+        key={i}
+        onClick={() => onAnswer(opt)}
+        className={style}
+        disabled={showFeedback}
+      >
+        {opt}
+      </button>
+    );
+
+  })}
+
+</div>
+
+);
 }
