@@ -26,11 +26,11 @@ const handleLogin = async (e) => {
 
     console.log("Login response:", res.data);
 
-    // store token
+    // ✅ STORE USER DATA
+    localStorage.setItem("user_id", res.data.user_id);
     localStorage.setItem("token", res.data.access_token);
-    localStorage.setItem("email", email);
 
-    // redirect to dashboard
+    // redirect
     navigate("/dashboard");
 
   } catch (err) {

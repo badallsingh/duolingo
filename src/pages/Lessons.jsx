@@ -7,10 +7,10 @@ export default function Lesson() {
 const { level, lessonId } = useParams();
 const navigate = useNavigate();
 
-const startLesson = () => {
-navigate(`/lessonplay/${level}/${lessonId}`);
-};
 
+const startLesson = (lesson) => {
+  navigate(`/lessonplay/${lesson.level}/${lesson.lesson_id}`);
+};
 return ( <div className="min-h-screen bg-[#020617] text-white p-6"> <h1 className="text-xl font-bold">
 Lesson {lessonId} (Level {level}) </h1>
 
@@ -19,11 +19,11 @@ Lesson {lessonId} (Level {level}) </h1>
   </p>
 
   <button
-    onClick={startLesson}
-    className="mt-6 bg-green-500 px-6 py-2 rounded font-semibold"
-  >
-    Start Lesson
-  </button>
+onClick={() => startLesson({ level, lesson_id: lessonId })}
+  className="mt-4 bg-green-500 px-6 py-2 rounded"
+>
+  Start Lesson
+</button>
 </div>
 );
 }

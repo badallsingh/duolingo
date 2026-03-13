@@ -8,7 +8,6 @@ export default function LessonPlay() {
 const navigate = useNavigate();
 const { level, lessonId } = useParams();
 
-const token = localStorage.getItem("token");
 const language = "english";
 
 const [question, setQuestion] = useState(null);
@@ -18,6 +17,32 @@ const [correct, setCorrect] = useState(0);
 const [showFeedback, setShowFeedback] = useState(false);
 const [finished, setFinished] = useState(false);
 const [result, setResult] = useState(null);
+
+const [userId, setUserId] = useState(null);
+const [token, setToken] = useState(null);
+
+
+// ==========================
+// LOAD USER SESSION
+// ==========================
+useEffect(() => {
+
+ const loadSession = () => {
+const storedUserId = parseInt(localStorage.getItem("user_id"));
+const storedToken = localStorage.getItem("token");
+
+if (!storedUserId || !storedToken) {
+  alert("Session expired. Please login again.");
+  navigate("/login");
+  return;
+}
+
+setUserId(storedUserId);
+setToken(storedToken);
+
+}
+loadSession();
+}, [navigate]);
 
 
 // ==========================
@@ -70,42 +95,42 @@ loadQuestion();
 // ==========================
 const answerQuestion = async (option) => {
 
-if (!question) return;
+if (!question || !userId) return;
 
 setSelected(option);
 
 try {
 
-const res = await fetch(
-  `http://127.0.0.1:8000/language/${language}/submit`,
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: JSON.stringify({
-      question_id: question.id,
-      user_answer: option
-    })
+  const res = await fetch(
+    `http://127.0.0.1:8000/language/${language}/submit`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        question_id: question.id,
+        user_answer: option
+      })
+    }
+  );
+
+  if (!res.ok) {
+    console.error("Submit API error:", res.status);
+    return;
   }
-);
 
-if (!res.ok) {
-  const text = await res.text();
-  console.error("Submit API error:", text);
-  return;
-}
+  const data = await res.json();
 
-const data = await res.json();
+  setResult(data);
 
-setResult(data);
+  if (data.correct) {
+    setCorrect((prev) => prev + 1);
+  }
 
-if (data.correct) {
-  setCorrect((c) => c + 1);
-}
-
-setShowFeedback(true);
+  setShowFeedback(true);
 
 } catch (err) {
   console.error("Submit error:", err);
@@ -119,22 +144,24 @@ setShowFeedback(true);
 // ==========================
 const submitLesson = async () => {
 
+if (!level || !lessonId) return;
+
 const score = Math.round((correct / 10) * 100);
 
 try {
 
-await fetch("http://127.0.0.1:8000/lesson/complete", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}`
-  },
-  body: JSON.stringify({
-    level: Number(level),
-    lesson_id: Number(lessonId),
-    score: score
-  })
-});
+  await fetch("http://127.0.0.1:8000/lesson/complete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      level: parseInt(level),
+      lesson_id: parseInt(lessonId),
+      score: score
+    })
+  });
 
 } catch (err) {
   console.error("Lesson submit error:", err);
