@@ -1,4 +1,8 @@
-export default function LessonNode({ completed, locked, onClick }) {
+export default function LessonNode({ lesson, onClick }) {
+
+  const completed = lesson.completed;
+  const locked = lesson.locked ?? false; // backend doesn't send locked
+
   let bg = "bg-gray-600";
   let icon = "🔒";
 

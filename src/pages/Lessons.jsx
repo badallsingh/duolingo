@@ -1,32 +1,73 @@
-
-import { useNavigate , useParams} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import LevelCard from "../components/LevelCard";
+import Loader from "../components/Loader";
+import BottomNav from "../components/BottomNav";
 
+export default function Lessons() {
 
-export default function Lesson() {
-const { level, lessonId } = useParams();
-const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [levels, setLevels] = useState(null);
 
+  useEffect(() => {
 
-const startLesson = (lesson) => {
-  navigate(`/lessonplay/${lesson.level}/${lesson.lesson_id}`);
-};
-return ( <div className="min-h-screen bg-[#020617] text-white p-6"> <h1 className="text-xl font-bold">
-Lesson {lessonId} (Level {level}) </h1>
+    const email = localStorage.getItem("email");
+    const token = localStorage.getItem("token");
 
-  <p className="text-gray-400 mt-2">
-    Ready to start this lesson?
-  </p>
+    if (!email || !token) {
+      navigate("/login");
+      return;
+    }
 
-  <button
-onClick={() => startLesson({ level, lesson_id: lessonId })}
-  className="mt-4 bg-green-500 px-6 py-2 rounded"
->
-  Start Lesson
-</button>
-</div>
-);
+    const loadLessons = async () => {
+      const res = await fetch(
+        `http://127.0.0.1:8000/user/lessons/${email}`
+      );
+
+      const data = await res.json();
+
+      let unlocked = false;
+
+      const updated = data.map((lvl) => ({
+        ...lvl,
+        lessons: lvl.lessons.map((lesson) => {
+
+          if (!unlocked) {
+            unlocked = true;
+            return { ...lesson, locked: false };
+          }
+
+          return { ...lesson, locked: true };
+
+        })
+      }));
+
+      setLevels(updated);
+    };
+
+    loadLessons();
+
+  }, [navigate]);
+
+  if (!levels) return <Loader />;
+
+  return (
+    <div className="min-h-screen bg-[#020617] text-white p-6 pb-20">
+
+      <h1 className="text-2xl font-bold mb-6">Learn 🚀</h1>
+
+      {levels.map((lvl) => (
+        <LevelCard
+          key={lvl.level}
+          level={lvl}
+          onLessonClick={(level, lessonId) =>
+            navigate(`/lessonplay/${level}/${lessonId}`)
+          }
+        />
+      ))}
+
+      <BottomNav />
+
+    </div>
+  );
 }
-
-
-

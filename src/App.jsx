@@ -1,73 +1,32 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
 import Lessons from "./pages/Lessons";
 import LessonPlay from "./pages/LessonPlay";
 import League from "./pages/League";
-
-import ProtectedRoute from "./components/ProtectedRoute";
-import LanguageProvider from "./context/LanguageProvider";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* PUBLIC ROUTES */}
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+    <Router>
+      <Routes>
 
-          {/* PROTECTED ROUTES */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/lessons" element={<Lessons />} />
+        <Route path="/lessonplay/:level/:lessonId" element={<LessonPlay />} />
 
-          <Route
-            path="/lessons"
-            element={
-              <ProtectedRoute>
-                <Lessons />
-              </ProtectedRoute>
-            }
-          />
+        <Route path="/league" element={<League />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
 
-           <Route
-              path="/lessonplay/:level/:lessonId"
-             element={
-             <ProtectedRoute>
-                <LessonPlay />
-              </ProtectedRoute>
-             } 
-          />
-
-          <Route
-            path="/league"
-            element={
-              <ProtectedRoute>
-                <League />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </LanguageProvider>
+      </Routes>
+    </Router>
   );
 }
